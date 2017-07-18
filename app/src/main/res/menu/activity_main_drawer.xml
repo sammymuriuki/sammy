@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_48dp"
+            android:title="@string/prompt_home" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_star_border_black_48dp"
+            android:title="@string/prompt_favorites" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_info_outline_black_48dp"
+            android:title="@string/prompt_about_us" />
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share_black_48dp"
+            android:title="@string/prompt_share" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_48dp"
+            android:title="@string/prompt_settings" />
+    </group>
+
+</menu>

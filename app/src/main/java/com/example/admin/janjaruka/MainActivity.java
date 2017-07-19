@@ -25,6 +25,7 @@ import android.widget.Toolbar;
 import com.example.admin.janjaruka.fragments.AboutUsFragment;
 import com.example.admin.janjaruka.fragments.HomeFragment;
 import com.example.admin.janjaruka.helper.CategoriesAsync;
+import com.example.admin.janjaruka.helper.INotify;
 import com.example.admin.janjaruka.helper.LawsSQLiteHandler;
 import com.example.admin.janjaruka.helper.SQLiteHandler;
 import com.example.admin.janjaruka.helper.SessionManager;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements INotify{
     private ListView categories_listview;
     private SQLiteHandler sqLiteHandler;
     private SessionManager sessionManager;
@@ -59,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        categoriesAsync = new CategoriesAsync(MainActivity.this);
-        categoriesAsync.execute();
+
         sqLiteHandler = new SQLiteHandler(getApplicationContext());
         lawsSQLiteHandler = new LawsSQLiteHandler(MainActivity.this);
 
@@ -70,30 +70,21 @@ public class MainActivity extends AppCompatActivity {
         if (!sessionManager.isLoggedIn()) {
             logoutUser();
         }
-        Log.d("List", "Refreshing list.. ");
 
-        //Get A list of Law Categories from the SQLite Database
-        List<Law_categories> categories = lawsSQLiteHandler.getCategories();
 
-        //Create law categories array of lawcatetegories object
-        final Law_categories category_data[] = new Law_categories[categories.size()];
 
-        //loop therough the list and populate the array
-        for(int i=0; i<categories.size(); i++){
-            category_data[i] = categories.get(i);
-        }
-
-        adapter = new CategoryAdapter(MainActivity.this, R.layout.law_categories, category_data);
         categories_listview = (ListView) findViewById(R.id.categories_listview);
+        notifyDataSetChanged();
+        //
+        categoriesAsync = new CategoriesAsync(MainActivity.this, this);
+        categoriesAsync.execute();
 
-        categories_listview.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         categories_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent bylaws_intent = new Intent(MainActivity.this, BylawsActivity.class);
-                Law_categories selected_law_category = category_data[position];
+                Law_categories selected_law_category = adapter.data[position];
                 bylaws_intent.putExtra("category_id", selected_law_category.category_id);
                 bylaws_intent.putExtra("category_text", selected_law_category.category_text);
                 bylaws_intent.putExtra("category_icon", selected_law_category.category_icon);
@@ -149,6 +140,29 @@ public class MainActivity extends AppCompatActivity {
     public void setTitle(CharSequence title) {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        Log.e("List", "Refreshing list.. ");
+
+        //Get A list of Law Categories from the SQLite Database
+        List<Law_categories> categories = lawsSQLiteHandler.getCategories();
+
+        //Create law categories array of lawcatetegories object
+        Law_categories[] data = new Law_categories[categories.size()];
+
+        //loop therough the list and populate the array
+        for(int i=0; i<categories.size(); i++){
+            data[i] = categories.get(i);
+            Log.e(getClass().getName(), "Just adding "+data[i].category_text);
+        }
+
+        adapter = new CategoryAdapter(MainActivity.this, R.layout.law_categories,data);
+        categories_listview.setAdapter(adapter);
+
+        Log.e(getClass().getName(), "Adapter has "+adapter.data.length);
+
     }
 
 

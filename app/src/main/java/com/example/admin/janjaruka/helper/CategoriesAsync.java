@@ -3,9 +3,12 @@ package com.example.admin.janjaruka.helper;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 //import com.example.admin.janjaruka.Law_categories;
+import com.example.admin.janjaruka.CategoryAdapter;
+import com.example.admin.janjaruka.Law_categories;
 import com.example.admin.janjaruka.MainActivity;
 import com.example.admin.janjaruka.R;
 
@@ -20,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import static com.example.admin.janjaruka.app.AppConfig.CONNECTION_TIMEOUT;
 import static com.example.admin.janjaruka.app.AppConfig.READ_TIMEOUT;
@@ -38,6 +42,7 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
     MainActivity mainActivity = new MainActivity();
    // public AsyncResponse delegate = null;
     private LawsSQLiteHandler lawsSQLiteHandler;
+    INotify iNotify;
 /*
 
     public CategoriesAsync(Context context, AsyncResponse delegate){
@@ -46,10 +51,10 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
     }
 */
 
-    public CategoriesAsync(Context context){
+    public CategoriesAsync(Context context, INotify iNotify){
         this.context = context;
-
         this.lawsSQLiteHandler = new LawsSQLiteHandler(context);
+        this.iNotify = iNotify;
     }
     @Override
     protected String doInBackground(Void... params) {
@@ -117,6 +122,7 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
         super.onPostExecute(response);
         //progressDialog.setMessage(response);
         //progressDialog.dismiss();
+        Log.e(getClass().getName(), response);
         if ((response == "No connection") || (response == "Problem loading data")) {
           //  progressDialog.setMessage(response);
           //  progressDialog.show();
@@ -157,13 +163,14 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
            //progressDialog.setMessage(category_ids.toString());
             lawsSQLiteHandler.removeCategories(category_ids);
 
-           // delegate.processFinish(category_data);
 
+            iNotify.notifyDataSetChanged();
 
         } catch (JSONException e) {
             progressDialog.setMessage("Check your internet");
             progressDialog.show();
             e.printStackTrace();
+            Log.e(getClass().getName(), e.getMessage());
         }
 
 

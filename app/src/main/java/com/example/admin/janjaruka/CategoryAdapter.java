@@ -20,7 +20,7 @@ import android.widget.TextView;
 public class CategoryAdapter extends ArrayAdapter<Law_categories> {
     Context context;
     int resource;
-    Law_categories[] data;
+    public Law_categories[] data;
 
     public CategoryAdapter(@NonNull Context context, @LayoutRes int resource, Law_categories[] data) {
         super(context, resource, data);
@@ -53,6 +53,11 @@ public class CategoryAdapter extends ArrayAdapter<Law_categories> {
         Log.e(getClass().getName(),"Adding item . . . "+law_categories.category_text) ;
         holder.category_icon.setImageResource(law_categories.category_icon);
         return row;
+    }
+
+    @Override
+    public int getCount() {
+        return data.length;
     }
 
     static class CategoryHolder {

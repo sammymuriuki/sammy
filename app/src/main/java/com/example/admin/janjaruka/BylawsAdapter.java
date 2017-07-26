@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,23 +17,25 @@ import android.widget.Toast;
 
 import com.example.admin.janjaruka.helper.BylawsAsync;
 
+import java.util.ArrayList;
+
 /**
  * Created by Admin on 30/05/2017.
  */
 
-public class BylawsAdapter extends ArrayAdapter<Bylaw_item> {
+public class BylawsAdapter extends BaseExpandableListAdapter {
     Context context;
     int resource;
-    Bylaw_item[] data;
-    BylawsAsync bylawsAsync;
-
-    public BylawsAdapter(@NonNull Context context, @LayoutRes int resource, Bylaw_item[] data) {
-        super(context, resource, data);
+    LayoutInflater inflater;
+    private ArrayList<Bylaw_item> bylaw_items;
+    public BylawsAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<Bylaw_item> bylaw_items) {
         this.context = context;
-        this.resource = resource;
-        this.data = data;
+       this.resource = resource;
+        //this.data = data;
+        this.bylaw_items = bylaw_items;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
+/*
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -86,10 +89,73 @@ public class BylawsAdapter extends ArrayAdapter<Bylaw_item> {
             }
         });
         return row;
+    } */
+
+    @Override
+    public int getGroupCount() {
+        return bylaw_items.size();
     }
 
-    static class BylawHolder {
-        ImageView star_icon, share_icon, court_case_icon, penalty_icon;
-        TextView bylawText;
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return 1;
     }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return bylaw_items.get(groupPosition);
+    }
+
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        return bylaw_items.get(groupPosition).penalty;
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return 0;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return 0;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        if (convertView == null){
+            convertView = inflater.inflate(resource, null);
+        }
+        Bylaw_item bylaw_item = (Bylaw_item) getGroup(groupPosition);
+        TextView bylaw_textview = (TextView)convertView.findViewById(R.id.bylaw_textview);
+
+        String bylaw_text = bylaw_item.bylaw_text;
+        bylaw_textview.setText(bylaw_text);
+
+
+        return convertView;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        if(convertView == null){
+            convertView = inflater.inflate(R.layout.penalty_view, null);
+        }
+        String child = (String) getChild(groupPosition, childPosition);
+        TextView childTextView = (TextView) convertView.findViewById(R.id.penalty_textview);
+
+        childTextView.setText(child);
+        return convertView;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
 }

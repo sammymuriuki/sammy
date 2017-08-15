@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-android:background="#fff"
-tools:context="com.example.admin.janjaruka.BylawsActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context="com.example.admin.janjaruka.BylawsActivity">
 <TextView
     android:id="@+id/category_header_text"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:gravity="bottom"
-    android:layout_alignParentTop="true"
     android:layout_alignParentBottom="true"
-    android:textSize="20dp"
-    android:textColor="#fff"
-    android:text="General Nuisance"
+    android:layout_alignParentTop="true"
     android:background="@color/colorPrimary"
+
+    android:gravity="bottom"
+    android:text="General Nuisance"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textColor="#fff"
     />
-<ListView
+<ExpandableListView
     android:id="@+id/bylaws_listview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/windowBackground"
     android:divider="#000"
     android:dividerHeight="1dp"
-    android:background="@color/windowBackground"
     >
-</ListView>
+</ExpandableListView>
 
 </LinearLayout>

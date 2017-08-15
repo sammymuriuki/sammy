@@ -2,11 +2,11 @@ package com.example.admin.janjaruka.helper;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.app.ProgressDialog;
 import android.util.Log;
 
 import com.example.admin.janjaruka.MainActivity;
@@ -70,9 +70,7 @@ public class LoginAsync extends AsyncTask<String, Void, String> {
                 httpURLConnection.setReadTimeout(READ_TIMEOUT);
                 httpURLConnection.setConnectTimeout(CONNECTION_TIMEOUT);
                 httpURLConnection.setRequestMethod("POST");
-
-
-
+                
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);

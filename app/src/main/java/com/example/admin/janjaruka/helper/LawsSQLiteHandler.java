@@ -1,6 +1,7 @@
 package com.example.admin.janjaruka.helper;
 
-import android.app.ProgressDialog;
+//import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,8 @@ import com.example.admin.janjaruka.Law_categories;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
 /**
  * Created by Admin on 29/06/2017.
@@ -65,11 +68,12 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_BYLAWS_TABLE);
         db.execSQL(CREATE_CATEGORIES_TABLE);
+        /*
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage(CREATE_BYLAWS_TABLE);
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(true);
-        progressDialog.show();
+        progressDialog.show(); */
         Log.d(TAG, "Database tables created");
     }
 
@@ -88,16 +92,20 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     }
     public void addBylaws(Integer bylaw_id,Integer category_id, String category_text, String penalty){
         SQLiteDatabase db = this.getWritableDatabase();
-        String INSERT_OR_REPLACE_BYLAWS = "INSERT OR REPLACE INTO "+TABLE_BYLAWS+" ("
-                +KEY_BYLAW_ID+", "+KEY_BYLAW_CATEGORY_ID+", "+KEY_BYLAW_TEXT+","+KEY_PENALTY+" ) VALUES ('"
-                +bylaw_id.toString()+"', '"+category_id.toString()+"', '"+category_text+"', '"+penalty+"' ) ";
-        db.execSQL(INSERT_OR_REPLACE_BYLAWS);
+        ContentValues values = new ContentValues();
+        values.put(KEY_BYLAW_ID, bylaw_id.toString());
+        values.put(KEY_BYLAW_CATEGORY_ID, category_id.toString());
+        values.put(KEY_BYLAW_TEXT, category_text);
+        values.put(KEY_PENALTY,penalty);
+
+        db.insertWithOnConflict(TABLE_BYLAWS, null, values, CONFLICT_REPLACE);
+
         db.close();
     }
     //when a category is not in the database online remove it from the sqlite database
     public void removeCategories(Integer[] category_ids){
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.show();
+        //ProgressDialog progressDialog = new ProgressDialog(context);
+        //progressDialog.show();
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "SELECT * FROM "+TABLE_CATEGORIES+"";   //selet all details in the sqlite databse
 
@@ -122,9 +130,9 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     }
     //when a bylaw is not in the database online remove it from the sqlite database
     public void removeBylaws(Integer[] bylaw_ids){
-        ProgressDialog progressDialog = new ProgressDialog(context);
+      /*  ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Removing");
-        progressDialog.show();
+        progressDialog.show(); */
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "SELECT * FROM "+TABLE_BYLAWS+"";   //selet all details in the sqlite databse
 

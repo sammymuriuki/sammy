@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Bottom 3dp Shadow -->
+    <item>
+        <shape android:shape="line">
+
+            <solid android:color="@color/windowBackground2" />
+            <corners android:radius="0dp" />
+            <padding android:bottom="1dp" android:left="3dp" android:right="3dp" android:top="1dp" />
+
+        </shape>
+    </item>
+
+    <!-- White Top color -->
+    <item android:bottom="4px">
+
+        <shape android:shape="line">
+
+            <solid android:color="@color/windowBackground1" />
+            <corners android:radius="0dp" />
+
+        </shape>
+
+    </item>
+
+</layer-list>

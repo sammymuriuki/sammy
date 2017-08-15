@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,17 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BylawsActivity extends Activity implements INotify{
-    Intent bylaws_intent;
-    String category_text, penalty, bylaw_text;
-    Bylaw_item[] bylaws_items;
+    private Intent bylaws_intent;
+    private String category_text, penalty, bylaw_text;
+    private Bylaw_item[] bylaws_items;
     private ExpandableListView bylaws_listview;
-    TextView category_header_text;
-    Integer category_id, bylaw_id;
-    LawsSQLiteHandler lawsSQLiteHandler;
-    SessionManager sessionManager;
-    SQLiteHandler sqLiteHandler;
-    BylawsAsync bylawsAsync;
-    BylawsAdapter bylawsAdapter;
+    private TextView category_header_text;
+    private Integer category_id, bylaw_id;
+    private LawsSQLiteHandler lawsSQLiteHandler;
+    private SessionManager sessionManager;
+    private SQLiteHandler sqLiteHandler;
+    private BylawsAsync bylawsAsync;
+    private BylawsAdapter bylawsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +50,10 @@ public class BylawsActivity extends Activity implements INotify{
         lawsSQLiteHandler = new LawsSQLiteHandler(BylawsActivity.this);
         // session manager
         sessionManager = new SessionManager(getApplicationContext());
+        /*
         if (!sessionManager.isLoggedIn()) {
             logoutUser();
-        }
+        } */
 
         bylaws_listview = (ExpandableListView) findViewById(R.id.bylaws_listview);
         updateList();

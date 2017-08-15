@@ -5,5 +5,5 @@ package com.example.admin.janjaruka.helper;
  */
 
 public interface INotify {
-    public void notifyDataSetChanged();
+    public void updateList();
 }

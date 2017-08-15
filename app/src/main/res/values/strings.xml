@@ -13,6 +13,7 @@
     <string name="prompt_gender">Gender</string>
     <string name="prompt_signup">Sign Up</string>
     <string name="action_sign_in">Log in</string>
+    <string name="prompt_comment">Comment</string>
     <string name="action_submit">Submit</string>
     <string name="action_sign_up">Create New Account</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -29,7 +30,7 @@
     <string name="prompt_share">Share</string>
     <string name="prompt_about_us">About Us</string>
     <string name="prompt_settings">Settings</string>
-
+    <string name="penalty">Penalty</string>
     <!--Nav drawe string -->
     <string name="drawer_close">Drawer Close</string>
     <string name="drawer_open">Drawer Open</string>

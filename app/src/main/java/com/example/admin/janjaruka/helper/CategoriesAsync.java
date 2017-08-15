@@ -6,9 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-//import com.example.admin.janjaruka.Law_categories;
-import com.example.admin.janjaruka.CategoryAdapter;
-import com.example.admin.janjaruka.Law_categories;
 import com.example.admin.janjaruka.MainActivity;
 import com.example.admin.janjaruka.R;
 
@@ -23,7 +20,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 import static com.example.admin.janjaruka.app.AppConfig.CONNECTION_TIMEOUT;
 import static com.example.admin.janjaruka.app.AppConfig.READ_TIMEOUT;
@@ -40,9 +36,9 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
     URL url = null;
     ProgressDialog progressDialog;
     MainActivity mainActivity = new MainActivity();
+    INotify iNotify;
    // public AsyncResponse delegate = null;
     private LawsSQLiteHandler lawsSQLiteHandler;
-    INotify iNotify;
 /*
 
     public CategoriesAsync(Context context, AsyncResponse delegate){
@@ -164,7 +160,7 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
             lawsSQLiteHandler.removeCategories(category_ids);
 
 
-            iNotify.notifyDataSetChanged();
+            iNotify.updateList();
 
         } catch (JSONException e) {
             progressDialog.setMessage("Check your internet");

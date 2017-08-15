@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -38,7 +37,6 @@ public class NavDrawerListViewAdapter extends ArrayAdapter<NavDrawerTitle> {
             row = inflater.inflate(resource, parent, false);
 
             holder = new NavDrawerListViewAdapter.NavDrawerHolder();
-            holder.title_icon = (ImageView) row.findViewById(R.id.nav_drawer_menu_icon);
             holder.title_text= (TextView) row.findViewById(R.id.nav_drawer_menu_title);
 
             row.setTag(holder);
@@ -47,12 +45,11 @@ public class NavDrawerListViewAdapter extends ArrayAdapter<NavDrawerTitle> {
         }
         NavDrawerTitle navDrawerTitle = data[position];
         holder.title_text.setText(navDrawerTitle.title_text);
-        holder.title_icon.setImageResource(navDrawerTitle.title_icon);
         return row;
     }
 
     static class NavDrawerHolder {
-        ImageView title_icon;
+
         TextView title_text;
     }
 }

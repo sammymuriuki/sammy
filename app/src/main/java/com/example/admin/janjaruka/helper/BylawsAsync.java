@@ -3,9 +3,8 @@ package com.example.admin.janjaruka.helper;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
-
-import com.example.admin.janjaruka.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,12 +32,14 @@ public class BylawsAsync extends AsyncTask<Void, Void, String> {
     HttpURLConnection httpURLConnection;
     URL url = null;
     ProgressDialog progressDialog;
+    INotify iNotify;
 
     private LawsSQLiteHandler lawsSQLiteHandler;
 
-    public BylawsAsync(Context context){
+    public BylawsAsync(Context context, INotify iNotify){
         this.context = context;
         this.lawsSQLiteHandler = new LawsSQLiteHandler(context);
+        this.iNotify = iNotify;
     }
 
     @Override
@@ -94,21 +95,14 @@ public class BylawsAsync extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Please wait 3 ...");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
     }
 
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-        progressDialog.setMessage(response);
-        progressDialog.dismiss();
+
         if ((response == "No connection") || (response == "Problem loading data")) {
-            progressDialog.setMessage(response);
-            progressDialog.show();
+            Log.e("Bylaws internet", response);
             return;
         }
         if (response == null) {
@@ -146,13 +140,14 @@ public class BylawsAsync extends AsyncTask<Void, Void, String> {
                 lawsSQLiteHandler.addBylaws(bylaw_id, category_id, bylaw_text, penalty);
 
             }
-            progressDialog.setMessage("Bylaws worked");
+
+            Log.e("Bylaws Async", "Downloaded data");
             lawsSQLiteHandler.removeBylaws(bylaw_ids);  //Remove Bylaws that are not in the online dfatabase
 
+            iNotify.updateList();
 
         } catch (JSONException e) {
-            progressDialog.setMessage("Check your internet");
-            progressDialog.show();
+            Log.e("Bylaws internet", "Check your internet");
             e.printStackTrace();
         }
 

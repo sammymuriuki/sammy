@@ -5,16 +5,10 @@ package com.example.admin.janjaruka;
  */
 
 public class NavDrawerTitle {
-    public int title_icon;
+
     public String title_text;
-
-    public NavDrawerTitle() {
+    public NavDrawerTitle(String title_text) {
         super();
-    }
-
-    public NavDrawerTitle(int title_icon, String title_text) {
-        super();
-        this.title_icon = title_icon;
         this.title_text = title_text;
     }
 }

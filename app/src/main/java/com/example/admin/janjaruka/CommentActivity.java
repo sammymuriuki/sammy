@@ -82,14 +82,15 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText comment_input = (EditText) findViewById(R.id.comment_editText);
-                FirebaseDatabase.getInstance().getReference().push().setValue(new ChatMessage(comment_input.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getEmail()));
+                FirebaseDatabase.getInstance().getReference().push().setValue(new ChatMessage(comment_input.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getEmail(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
                 comment_input.setText("");
+                //displayChatMessage();
             }
         });
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), SIGNIN_REQUEST_CODE);
         }else {
-            Snackbar.make(comment_activity, "Welcome"+FirebaseAuth.getInstance().getCurrentUser().getEmail(), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(comment_activity, "Welcome "+FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Snackbar.LENGTH_SHORT).show();
             displayChatMessage();
         }
 
@@ -191,16 +192,17 @@ public class CommentActivity extends AppCompatActivity {
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class, R.layout.message_list, FirebaseDatabase.getInstance().getReference() ) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
-                 TextView messageText, messageUser, messageTime;
+                TextView messageText, messageUser, messageTime;
                 messageText = (TextView)v.findViewById(R.id.message_text);
                 messageUser = (TextView) v.findViewById(R.id.message_user);
                 messageTime = (TextView) v.findViewById(R.id.message_time);
 
                 messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
+                messageUser.setText(model.getMessageUserDisplayName());
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getMessageTime()));
             }
         };
         listOfMessage.setAdapter(adapter);
+
     }
 }

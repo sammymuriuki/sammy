@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "32929315582",
-    "firebase_url": "https://sammy-77299.firebaseio.com",
-    "project_id": "sammy-77299",
-    "storage_bucket": "sammy-77299.appspot.com"
+    "project_number": "370301726490",
+    "firebase_url": "https://chatapp-85eb8.firebaseio.com",
+    "project_id": "chatapp-85eb8",
+    "storage_bucket": "chatapp-85eb8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:32929315582:android:a3e7c3e60a5891ba",
+        "mobilesdk_app_id": "1:370301726490:android:a3e7c3e60a5891ba",
         "android_client_info": {
           "package_name": "com.example.admin.janjaruka"
         }
       },
       "oauth_client": [
         {
-          "client_id": "32929315582-o954b9k2ru6dka58d8mvo5604dusaoth.apps.googleusercontent.com",
+          "client_id": "370301726490-a979hdahkgnbgjdi76ms6vmtafkcp642.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.admin.janjaruka",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "32929315582-stv3f5rer69ce8oqj46di8q58485h2nb.apps.googleusercontent.com",
+          "client_id": "370301726490-2ln760ulsai5ka67ipq0vcel61rk7i94.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_W4CQwO5ldrCnYi2baj7R85GDl86zaOM"
+          "current_key": "AIzaSyDyNpA1YQ8U3Td0bBo9dUnoQ2bNhIil4Q0"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "32929315582-stv3f5rer69ce8oqj46di8q58485h2nb.apps.googleusercontent.com",
+              "client_id": "370301726490-2ln760ulsai5ka67ipq0vcel61rk7i94.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

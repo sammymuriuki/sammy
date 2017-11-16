@@ -125,7 +125,7 @@ public class BylawsAsync extends AsyncTask<Void, Void, String> {
             for(int i=0; i< jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                bylaw_id_str = jsonObject.getString("bylaw_id");
+                bylaw_id_str = jsonObject.getString("id");
                 bylaw_id = Integer.valueOf(bylaw_id_str);
 
                 category_id_str = jsonObject.getString("category_id");

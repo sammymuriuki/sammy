@@ -50,57 +50,52 @@
 
         </LinearLayout>
 
-        <ScrollView
-            android:id="@+id/login_form"
+
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="20dp">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <LinearLayout
-                android:id="@+id/email_login_form"
+            <EditText
+                android:id="@+id/comment_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:gravity="top"
+                android:hint="Post a comment"
+                android:lines="4"
 
-                <EditText
-                    android:id="@+id/comment_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
-                    android:gravity="top"
-                    android:hint="Post a comment"
-                    android:lines="4"
+                />
 
-                    />
+            <Button
+                android:id="@+id/comment_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/prompt_comment"
+                android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/comment_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/prompt_comment"
-                    android:textStyle="bold" />
+            <ListView
+                android:id="@+id/list_of_messages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:divider="#000"
+                android:dividerHeight="1dp">
+            </ListView>
 
-                <ListView
-                    android:id="@+id/list_of_messages"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="16dp"
-                    >
+        </LinearLayout>
 
-                </ListView>
-            </LinearLayout>
 
-        </ScrollView>
 
-    </LinearLayout>
+</LinearLayout>
     <!-- Navigation drawer -->
 <ListView
 android:id="@+id/navList"

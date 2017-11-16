@@ -146,7 +146,7 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
 
-                category_id_str = jsonObject.getString("category_id");
+                category_id_str = jsonObject.getString("id");
                 category_id = Integer.valueOf(category_id_str);
                 category_text = jsonObject.getString("category_text");
                 category_ids[i] = category_id;
@@ -163,10 +163,10 @@ public class CategoriesAsync extends AsyncTask<Void, Void, String> {
             iNotify.updateList();
 
         } catch (JSONException e) {
-            progressDialog.setMessage("Check your internet");
-            progressDialog.show();
+            Log.e("Fails","Fails");
             e.printStackTrace();
             Log.e(getClass().getName(), e.getMessage());
+
         }
 
 

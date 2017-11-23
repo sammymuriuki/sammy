@@ -24,28 +24,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 
-
 /**
- * Created by Admin on 24/05/2017.
+ * Created by Admin on 22/11/2017.
  */
 
-public class CategoryAdapter extends ArrayAdapter<Law_categories> {
+class CategoryAdapter2 extends ArrayAdapter<Law_categories> {
     public Law_categories[] data;
     Context context;
     int resource;
     ImageLoader imageLoader = AppController.getmInstance(context).getImageLoader();
     private LayoutInflater inflater;
     private CategoriesImageUrlArray categoriesImageUrlArray;
-    //private  CategoryIconsAsync categoryIconsAsync;
-
-
-    public CategoryAdapter(@NonNull Context context, @LayoutRes int resource, Law_categories[] data) {
+    private  CategoryIconsAsync categoryIconsAsync;
+    public CategoryAdapter2(@NonNull Context context, @LayoutRes int resource, Law_categories[] data) {
         super(context, resource, data);
         this.resource = resource;
         this.context = context;
         this.data = data;
         Log.e(getClass().getName(), data.length+"");
-      //  Log.e("LawCategories has", String.valueOf(data.length));
+        //  Log.e("LawCategories has", String.valueOf(data.length));
         //imageLoader
         categoriesImageUrlArray = new CategoriesImageUrlArray();
         categoriesImageUrlArray.IMAGES = new String[data.length];
@@ -59,6 +56,7 @@ public class CategoryAdapter extends ArrayAdapter<Law_categories> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
         CategoryHolder holder = null;
+
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(resource, parent, false);
@@ -78,21 +76,18 @@ public class CategoryAdapter extends ArrayAdapter<Law_categories> {
         if (imageLoader == null) {
             imageLoader = AppController.getmInstance(context).getImageLoader();
         }
-       // categoryIconsAsync= new CategoryIconsAsync(context);
-      //  categoryIconsAsync.execute(law_categories.category_icon, holder.category_icon);
+        // categoryIconsAsync= new CategoryIconsAsync(context);
+        //  categoryIconsAsync.execute(law_categories.category_icon, holder.category_icon);
        /* holder.category_icon.setDefaultImageResId(R.drawable.ic_question);
         holder.category_icon.setErrorImageResId(R.drawable.ic_error_black_48dp);
         holder.category_icon.setAdjustViewBounds(true);
         holder.category_icon.setImageUrl(law_categories.category_icon,imageLoader);
         holder.category_icon.setImageUrl(law_categories.category_icon,imageLoader);
        // categoriesImageUrlArray = new CategoriesImageUrlArray(); */
-   //     Log.e("iMAGE:",categoriesImageUrlArray.IMAGES[position] );
-       imageLoader.get(law_categories.category_icon, ImageLoader.getImageListener(holder.category_icon, R.drawable.ic_question, R.drawable.ic_error_black_48dp), 60, 60);
-        holder.category_icon.setImageUrl(law_categories.category_icon,imageLoader);
-
-
-
-
+        //     Log.e("iMAGE:",categoriesImageUrlArray.IMAGES[position] );
+        imageLoader.get(categoriesImageUrlArray.IMAGES[position], ImageLoader.getImageListener(holder.category_icon, R.drawable.ic_question, R.drawable.ic_error_black_48dp), 60, 60);
+        //imageLoader.
+//
         return row;
     }
 
@@ -106,7 +101,7 @@ public class CategoryAdapter extends ArrayAdapter<Law_categories> {
         TextView category;
         Integer category_id;
     }
-    static class CategoryIconsAsync extends AsyncTask<Object, Void, Bitmap>{
+    static class CategoryIconsAsync extends AsyncTask<Object, Void, Bitmap> {
         NetworkImageView cateogyIconv;
         private Context context;
         public CategoryIconsAsync(Context context){

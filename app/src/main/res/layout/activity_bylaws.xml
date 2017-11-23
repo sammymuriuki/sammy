@@ -9,15 +9,17 @@
 <TextView
     android:id="@+id/category_header_text"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_alignParentTop="true"
     android:background="@color/colorPrimary"
-
+    android:fontFamily="sans-serif-condensed"
     android:gravity="bottom"
+    android:padding="10dp"
     android:text="General Nuisance"
     android:textAppearance="?android:attr/textAppearanceMedium"
     android:textColor="#fff"
+    android:textSize="20dp"
     />
 <ExpandableListView
     android:id="@+id/bylaws_listview"
@@ -26,6 +28,7 @@
     android:background="@color/windowBackground"
     android:divider="#000"
     android:dividerHeight="1dp"
+
     >
 </ExpandableListView>
 

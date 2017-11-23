@@ -5,18 +5,20 @@ package com.example.admin.janjaruka;
  */
 
 public class Law_categories {
-    public int category_icon;
+   // public int category_icon;
+    public String category_icon;
     public Integer category_id;
     public String category_text;
 
-    public Law_categories() {
-        super();
-    }
-
-    public Law_categories(Integer category_id, String category_text, int category_icon) {
+    public Law_categories(Integer category_id, String category_text, String category_icon) {
         super();
         this.category_id = category_id;
         this.category_text = category_text;
         this.category_icon = category_icon;
     }
+
+    public Law_categories() {
+        super();
+    }
+
 }

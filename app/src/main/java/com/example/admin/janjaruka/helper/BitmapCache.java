@@ -21,6 +21,7 @@ public class BitmapCache extends LruCache<String, Bitmap> implements ImageLoader
 
     public BitmapCache() {
         this(getDefaultCacheSize());
+
     }
 
     public static int getDefaultCacheSize(){
@@ -36,10 +37,11 @@ public class BitmapCache extends LruCache<String, Bitmap> implements ImageLoader
 
     @Override
     public void putBitmap(String url, Bitmap bitmap) {
-
+        put(url, bitmap);
     }
 
     protected int sizeOf(String key, Bitmap value){
         return value.getRowBytes()*value.getHeight()/1024;
     }
+
 }

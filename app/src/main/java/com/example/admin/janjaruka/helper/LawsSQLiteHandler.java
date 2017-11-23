@@ -78,10 +78,12 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     }
 
     //Insert category details into the database
-    public void addCategories(Integer category_id, String category_text, int category_icon){
+    public void addCategories(Integer category_id, String category_text, String category_icon){
         SQLiteDatabase db = this.getWritableDatabase();
-        category_icon_integer= ((Integer) category_icon);
-        category_icon_str=category_icon_integer.toString();
+       // category_icon_integer= ((Integer) category_icon);
+      //  category_icon_integer= ((Integer) category_icon);
+      //  category_icon_str=category_icon_integer.toString();
+        category_icon_str=category_icon;
 
         String INSERT_OR_REPLACE_CATEGORIES = "INSERT OR REPLACE INTO "+TABLE_CATEGORIES+" ("
                 +KEY_CATEGORY_ID+", "+KEY_CATEGORY_TEXT+", "+KEY_CATEGORY_ICON+" ) VALUES ('"
@@ -170,13 +172,23 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                Law_categories law_categories = new Law_categories();
+               /* Law_categories law_categories = new Law_categories();
                 law_categories.category_id = Integer.valueOf(cursor.getString(0));
                 law_categories.category_text= cursor.getString(1);
-                law_categories.category_icon= Integer.parseInt(cursor.getString(2));
+                //law_categories.category_icon= Integer.parseInt(cursor.getString(2));
+                law_categories.category_icon= cursor.getString(2);
 
                 //add category to list
+                categories_list.add(law_categories); */
+                Law_categories law_categories = new Law_categories(Integer.valueOf(cursor.getString(0)),cursor.getString(1),cursor.getString(2));
+            /*    law_categories.category_id = ;
+                law_categories.category_text= ;
+                //law_categories.category_icon= Integer.parseInt(cursor.getString(2));
+                law_categories.category_icon= ;
+
+                //add category to list  */
                 categories_list.add(law_categories);
+
             }while (cursor.moveToNext());
 
         }

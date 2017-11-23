@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.admin.janjaruka.app.AppController;
 import com.example.admin.janjaruka.helper.CategoriesAsync;
 import com.example.admin.janjaruka.helper.INotify;
 import com.example.admin.janjaruka.helper.LawsSQLiteHandler;
@@ -36,7 +37,10 @@ public class MainActivity extends AppCompatActivity implements INotify{
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private CategoryAdapter adapter;
+    //private CategoriesImageUrlArray categoriesImageUrlArray;
 
+    public static void getString(String s) {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements INotify{
         }
         */
 
-
+        AppController.getmInstance(getApplicationContext());
 
         categories_listview = (ListView) findViewById(R.id.categories_listview);
         updateList();
@@ -117,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements INotify{
             }
         });
     }
+
     @Override
     public void updateList() {
         Log.e("List", "Refreshing categories list.. ");
@@ -126,11 +131,14 @@ public class MainActivity extends AppCompatActivity implements INotify{
 
         //Create law categories array of lawcatetegories object
         Law_categories[] data = new Law_categories[categories.size()];
+        //
 
         //loop therough the list and populate the array
         for(int i=0; i<categories.size(); i++){
             data[i] = categories.get(i);
             Log.e(getClass().getName(), "Just adding "+data[i].category_text);
+            Log.e(getClass().getName(), "Just adding "+data[i].category_icon);
+
         }
 
         adapter = new CategoryAdapter(MainActivity.this, R.layout.law_categories,data);
@@ -149,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements INotify{
         return super.onPrepareOptionsMenu(menu);
 
     }
+
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;

@@ -26,6 +26,7 @@ public class BylawsAdapter extends BaseExpandableListAdapter {
     private String penalty_text, bylaw_text;
     private  Bylaw_item bylaw_item;
     private ImageView comment_icon, share_icon, favourite_icon, case_icon;
+    private MainActivity mainActivity;
     public BylawsAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<Bylaw_item> bylaw_items) {
         this.context = context;
         this.resource = resource;

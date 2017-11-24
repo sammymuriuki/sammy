@@ -11,6 +11,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.admin.janjaruka.helper.LawsSQLiteHandler;
+
 import java.util.ArrayList;
 
 /**
@@ -26,13 +28,16 @@ public class BylawsAdapter extends BaseExpandableListAdapter {
     private String penalty_text, bylaw_text;
     private  Bylaw_item bylaw_item;
     private ImageView comment_icon, share_icon, favourite_icon, case_icon;
-    private MainActivity mainActivity;
+
+    private LawsSQLiteHandler lawsSQLiteHandler;
+
     public BylawsAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<Bylaw_item> bylaw_items) {
         this.context = context;
         this.resource = resource;
         this.bylaw_items = bylaw_items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         sendIntent = new Intent();
+        this.lawsSQLiteHandler = new LawsSQLiteHandler(context);
     }
 
     @Override
@@ -81,8 +86,6 @@ public class BylawsAdapter extends BaseExpandableListAdapter {
         final String bylaw_text = bylaw_item.bylaw_text;
         bylaw_textview.setText(bylaw_text);
 
-
-
         return convertView;
     }
 
@@ -93,21 +96,34 @@ public class BylawsAdapter extends BaseExpandableListAdapter {
         }
         bylaw_item = (Bylaw_item) getGroup(groupPosition);
 
-        penalty_text = (String) getChild(groupPosition, childPosition);
-        bylaw_text =  bylaw_item.bylaw_text;
+       // penalty_text = (String) getChild(groupPosition, childPosition);
+
+        //bylaw_text =  bylaw_item.bylaw_text;
 
         TextView penalty_textView = (TextView) convertView.findViewById(R.id.penalty_textview);
 
         share_icon = (ImageView)convertView.findViewById(R.id.share_icon);
+        share_icon.setTag(bylaw_item.penalty);
+
         comment_icon = (ImageView)convertView.findViewById(R.id.comment_icon);
+        comment_icon.setTag(bylaw_item.bylaw_text);
+
         favourite_icon = (ImageView)convertView.findViewById(R.id.star_icon);
+        favourite_icon.setTag(bylaw_item.favorite);
+       // Log.e("Favorite icon", String.valueOf(favourite_icon.getTag()));
+
+        if (bylaw_item.favorite){
+            favourite_icon.setImageResource(R.drawable.ic_grade_white_48dp);
+        }else {
+            favourite_icon.setImageResource(R.drawable.ic_star_black_48dp);
+        }
         case_icon = (ImageView)convertView.findViewById(R.id.court_case_icon);
 
         share_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "@Janjaruka , "+penalty_text);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "@Janjaruka , "+share_icon.getTag());
                 sendIntent.setType("text/plain");
                 //startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
                 context.startActivity(sendIntent);
@@ -117,11 +133,27 @@ public class BylawsAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 commentIntent = new Intent(context, CommentActivity.class);
-                commentIntent.putExtra("bylaw_text", bylaw_text);
+                commentIntent.putExtra("bylaw_text", (String) comment_icon.getTag());
                 context.startActivity(commentIntent);
             }
         });
+        favourite_icon.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View v) {
+                if ((Boolean) v.getTag()){
+                    //if true set favorite false and change icon color
+                    lawsSQLiteHandler.favorite(bylaw_item.bylaw_id,true);
+                    favourite_icon.setImageResource(R.drawable.ic_star_black_48dp);
+                    bylaw_item.favorite = false;
+                }else {
+                    //if false set favorite true and change the icon color
+                    lawsSQLiteHandler.favorite(bylaw_item.bylaw_id,false);
+                    favourite_icon.setImageResource(R.drawable.ic_grade_white_48dp);
+                    bylaw_item.favorite = true;
+                }
+            }
+        });
 
         penalty_textView.setText(penalty_text);
         return convertView;

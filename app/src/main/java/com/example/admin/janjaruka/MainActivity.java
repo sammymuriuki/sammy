@@ -52,11 +52,6 @@ public class MainActivity extends AppCompatActivity implements INotify{
 
         // session manager
         sessionManager = new SessionManager(getApplicationContext());
-/*
-        if (!sessionManager.isLoggedIn()) {
-            logoutUser();
-        }
-        */
 
         AppController.getmInstance(getApplicationContext());
 

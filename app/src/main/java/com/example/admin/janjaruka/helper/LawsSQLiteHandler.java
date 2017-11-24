@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.admin.janjaruka.Bylaw_item;
 import com.example.admin.janjaruka.Law_categories;
@@ -23,7 +24,7 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 public class LawsSQLiteHandler extends SQLiteOpenHelper {
     private static final String TAG = SQLiteHandler.class.getSimpleName();
     //database version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     //database name
     private static final String DATABASE_NAME = "janjaruka_laws";
     //categories table name
@@ -45,10 +46,12 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     Context context;
     private Integer category_icon_integer;
     private String  category_icon_str;
-
+    private SQLiteDatabase db;
+    private ContentValues values;
     public LawsSQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        this.values = new ContentValues();
     }
 
     @Override
@@ -70,21 +73,14 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_BYLAWS_TABLE);
         db.execSQL(CREATE_CATEGORIES_TABLE);
-        /*
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(CREATE_BYLAWS_TABLE);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
-        progressDialog.show(); */
+
         Log.d(TAG, "Database tables created");
     }
 
     //Insert category details into the database
     public void addCategories(Integer category_id, String category_text, String category_icon){
-        SQLiteDatabase db = this.getWritableDatabase();
-       // category_icon_integer= ((Integer) category_icon);
-      //  category_icon_integer= ((Integer) category_icon);
-      //  category_icon_str=category_icon_integer.toString();
+        db = this.getWritableDatabase();
+
         category_icon_str=category_icon;
 
         String INSERT_OR_REPLACE_CATEGORIES = "INSERT OR REPLACE INTO "+TABLE_CATEGORIES+" ("
@@ -95,8 +91,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
     }
     public void addBylaws(Integer bylaw_id,Integer category_id, String category_text, String penalty){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+        db = this.getWritableDatabase();
         values.put(KEY_BYLAW_ID, bylaw_id.toString());
         values.put(KEY_BYLAW_CATEGORY_ID, category_id.toString());
         values.put(KEY_BYLAW_TEXT, category_text);
@@ -107,11 +102,24 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
         db.close();
     }
+    public void favorite(Integer bylaw_id, Boolean favorite){
+        db = this.getWritableDatabase();
+        String statusTest = "";
+        ///Change the value of favorite
+        String update_bylaw = "UPDATE "+TABLE_BYLAWS+" SET "+KEY_FAVORITE+" = '"+favorite+"' WHERE "+KEY_BYLAW_ID+" = '"+bylaw_id+"'";
+         db.execSQL(update_bylaw);
+        Log.e("Favorite", "Favarite updated to "+favorite);
+        if (favorite){
+            statusTest = "Unfavorited";
+        }else {
+            statusTest ="Favorited";
+        }
+
+        Toast.makeText(context, statusTest, Toast.LENGTH_SHORT).show();
+    }
     //when a category is not in the database online remove it from the sqlite database
     public void removeCategories(Integer[] category_ids){
-        //ProgressDialog progressDialog = new ProgressDialog(context);
-        //progressDialog.show();
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         String selectQuery = "SELECT * FROM "+TABLE_CATEGORIES+"";   //selet all details in the sqlite databse
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -135,7 +143,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     }
     //when a bylaw is not in the database online remove it from the sqlite database
     public void removeBylaws(Integer[] bylaw_ids){
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         String selectQuery = "SELECT * FROM "+TABLE_BYLAWS+"";   //selet all details in the sqlite databse
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -165,7 +173,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
         List<Law_categories> categories_list = new ArrayList<Law_categories>();
         String selectQuery = "SELECT * FROM " + TABLE_CATEGORIES;
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //looping throught all; rows and adding to list
@@ -186,7 +194,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     public List<Bylaw_item> getBylaws(Integer category_id){
         List<Bylaw_item> bylaws_list = new ArrayList<Bylaw_item>();
         String selectQuery = "SELECT * FROM " +TABLE_BYLAWS+" WHERE "+KEY_BYLAW_CATEGORY_ID+" = '"+category_id.toString()+"'";
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         //looping throught all; rows and adding to list
@@ -218,14 +226,14 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
      * Recreate database ... delete all tables an create them again
      */
     public void deleteAllCategories() {
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         //Delete all rows
         db.delete(TABLE_CATEGORIES, null, null);
         db.close();
         Log.d(TAG, "Deleted all info.");
     }
     public void deleteAllBylaws() {
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         //Delete all rows
         db.delete(TABLE_BYLAWS, null, null);
         db.close();

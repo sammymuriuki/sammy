@@ -67,7 +67,7 @@
             android:layout_width="@dimen/intent_icons_size"
             android:layout_height="@dimen/intent_icons_size"
             android:padding="20dp"
-            android:src="@drawable/ic_star_black_48dp"/>
+            />
         <ImageView
             android:id="@+id/share_icon"
             android:layout_width="@dimen/intent_icons_size"

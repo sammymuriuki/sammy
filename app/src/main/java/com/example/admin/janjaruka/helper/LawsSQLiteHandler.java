@@ -40,6 +40,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     private static final String KEY_BYLAW_TEXT = "bylaw_text";
     private static final String KEY_PENALTY = "penalty";
     private static final String KEY_BYLAW_CATEGORY_ID = "bylaw_category_id";
+    private static final String KEY_FAVORITE = "favorite";
 
     Context context;
     private Integer category_icon_integer;
@@ -57,7 +58,8 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
                 +KEY_BYLAW_ID + " INTEGER PRIMARY KEY, "
                 +KEY_BYLAW_CATEGORY_ID +" TEXT, "
                 +KEY_BYLAW_TEXT +" TEXT, "
-                +KEY_PENALTY +" TEXT "
+                +KEY_PENALTY +" TEXT, "
+                +KEY_FAVORITE +" TEXT"
                 + ")";
 
         String CREATE_CATEGORIES_TABLE = "CREATE TABLE "+ TABLE_CATEGORIES + "("
@@ -99,6 +101,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
         values.put(KEY_BYLAW_CATEGORY_ID, category_id.toString());
         values.put(KEY_BYLAW_TEXT, category_text);
         values.put(KEY_PENALTY,penalty);
+        values.put(KEY_FAVORITE, false);
 
         db.insertWithOnConflict(TABLE_BYLAWS, null, values, CONFLICT_REPLACE);
 
@@ -132,9 +135,6 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
     }
     //when a bylaw is not in the database online remove it from the sqlite database
     public void removeBylaws(Integer[] bylaw_ids){
-      /*  ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Removing");
-        progressDialog.show(); */
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "SELECT * FROM "+TABLE_BYLAWS+"";   //selet all details in the sqlite databse
 
@@ -172,20 +172,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-               /* Law_categories law_categories = new Law_categories();
-                law_categories.category_id = Integer.valueOf(cursor.getString(0));
-                law_categories.category_text= cursor.getString(1);
-                //law_categories.category_icon= Integer.parseInt(cursor.getString(2));
-                law_categories.category_icon= cursor.getString(2);
-
-                //add category to list
-                categories_list.add(law_categories); */
                 Law_categories law_categories = new Law_categories(Integer.valueOf(cursor.getString(0)),cursor.getString(1),cursor.getString(2));
-            /*    law_categories.category_id = ;
-                law_categories.category_text= ;
-                //law_categories.category_icon= Integer.parseInt(cursor.getString(2));
-                law_categories.category_icon= ;
-
                 //add category to list  */
                 categories_list.add(law_categories);
 
@@ -210,6 +197,7 @@ public class LawsSQLiteHandler extends SQLiteOpenHelper {
                 bylaw_item.category_id= Integer.valueOf(cursor.getString(1));
                 bylaw_item.bylaw_text = cursor.getString(2);
                 bylaw_item.penalty = cursor.getString(3);
+                bylaw_item.favorite = Boolean.valueOf(cursor.getString(4));
                 //add bylaw_object to list
                 bylaws_list.add(bylaw_item);
             }while (cursor.moveToNext());
